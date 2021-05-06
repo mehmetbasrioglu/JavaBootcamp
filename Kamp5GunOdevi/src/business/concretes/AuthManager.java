@@ -38,7 +38,7 @@ public class AuthManager implements AuthService{
 				System.out.println("Giriþ Yapýldý");
 			}
 			else {
-				System.out.println("Doðrulanmamýþ Kullanýcý");
+				System.out.println("Email veya Þifre uyuþmadý");
 			}
 
 			return;
