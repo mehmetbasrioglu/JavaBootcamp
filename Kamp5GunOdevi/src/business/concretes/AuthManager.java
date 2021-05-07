@@ -22,6 +22,8 @@ public class AuthManager implements AuthService{
 		if(checkUserForLogin(user)) {
 			GoogleServiceAdapter googleApi = new GoogleServiceAdapter();
 			googleApi.signIn(user.getEmail(), user.getPassword());
+			userService.add(user);
+			
 			
 			
 			return;
