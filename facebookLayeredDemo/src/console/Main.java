@@ -12,7 +12,7 @@ public class Main {
 		
 		//Katmanlý Mimari örnek alýþtýrma tekrarý
 
-		User kullanici1 = new User(1,"Mehmet","Basrioðlu","mehmet@gmail.com","123456");
+		User kullanici1 = new User(1,"Mehmet","Basrioðlu ","mehmet@gmail.com","123456");
 		User kullanici2 = new User(2,"Mehmet","Basrioðlu","mehmet2@gmail.com","123456");
 		
 		InMemoryUserDao dao = new InMemoryUserDao();
