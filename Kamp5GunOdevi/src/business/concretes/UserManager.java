@@ -10,7 +10,7 @@ import dataAccess.abstracts.UserDao;
 import entities.concretes.User;
 
 public class UserManager implements UserService{
-	private UserDao useDao;
+	private UserDao useDao; 
 	
 	
 	public UserManager(UserDao useDao) {
