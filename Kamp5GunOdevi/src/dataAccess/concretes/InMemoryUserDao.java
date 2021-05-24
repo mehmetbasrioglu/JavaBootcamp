@@ -85,7 +85,8 @@ public class InMemoryUserDao implements UserDao{
 	@Override
 	public boolean isPasswordMatch(User user) {
 		// TODO Auto-generated method stub
-		return users.stream().anyMatch(user_ -> user_.getPassword() == user.getPassword());
+		
+	return users.stream().anyMatch(user_ -> user_.getPassword() == user.getPassword());
 	}
 
 

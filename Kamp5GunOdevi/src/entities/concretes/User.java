@@ -9,7 +9,7 @@ public class User implements Entity {
 	private String email;
 	private String password;
 	private boolean isVerified = false;
-	private String verifyCode;
+	private String verifyCode; 
 	
 	
 	

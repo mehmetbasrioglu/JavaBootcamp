@@ -25,4 +25,9 @@ public class UserManager implements UserService{
 		return userDao.findAll();
 	}
 
+	@Override
+	public User add(User user) {
+		return userDao.save(user);
+	}
+
 }

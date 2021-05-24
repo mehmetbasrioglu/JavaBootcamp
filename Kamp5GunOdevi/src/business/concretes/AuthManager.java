@@ -36,7 +36,7 @@ public class AuthManager implements AuthService{
 	public void signIn(User user) {
 		// TODO Auto-generated method stub
 		if(checkUserForLogin(user)) {
-			if(	userService.ifEmailExists(user) && userService.ifPasswordExists(user)) {
+			if(userService.ifEmailExists(user) && userService.ifPasswordExists(user)) {
 				System.out.println("Giriþ Yapýldý");
 			}
 			else {
@@ -56,7 +56,7 @@ public class AuthManager implements AuthService{
 		int random = (int)Math.floor(Math.random()*9999);
 		String dogrulamaKodu = user.getFirstName().substring(0, 1) + ""+user.getId()+""+user.getLastName().substring(0, 1)+""+random;
 		System.out.println("Doðrulama Kodu: "+dogrulamaKodu);
-		user.setVerifyCode(dogrulamaKodu);
+		user.setVerifyCode(dogrulamaKodu); 
 	
 		
 		
