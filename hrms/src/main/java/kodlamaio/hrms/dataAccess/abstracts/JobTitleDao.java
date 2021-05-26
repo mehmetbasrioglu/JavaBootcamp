@@ -14,6 +14,8 @@ public interface JobTitleDao extends JpaRepository<JobTitle,Integer> {
 	
 	 @Query("select u from JobTitle u where lower(u.title) like lower(concat('%', :title,'%'))")
       List<JobTitle> findJobTitles(@Param("title") String title);
+	 
+	 List<JobTitle> findById(@Param("") int id);
 	
 	Optional<JobTitle> findOneByTitle(@Param("") String title);
 	

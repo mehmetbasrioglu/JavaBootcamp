@@ -13,8 +13,8 @@ public interface JobTitleService {
 	DataResult<JobTitle> add(JobTitle title);
 	
 	
-	List<JobTitle> getAll();
-	Optional<JobTitle> findById(Integer id);
+	DataResult<List<JobTitle>> getAll();
+	DataResult<List<JobTitle>> findById(int id);
 	
-	List<JobTitle> findJobTitles(String title);
+	DataResult<List<JobTitle>> findJobTitles(String title);
 }

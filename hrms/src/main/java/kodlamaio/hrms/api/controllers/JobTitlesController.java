@@ -26,17 +26,17 @@ public class JobTitlesController {
 	}
 	
 	@GetMapping("getall")
-	public List<JobTitle> getAll(){
+	public DataResult<List<JobTitle>> getAll(){
 		return jobTitleService.getAll();
 	}
 	
 	@RequestMapping(value = "findbyid/{id}", method = RequestMethod.GET)
-	public Optional<JobTitle> findById(@PathVariable("id") Integer id){
+	public DataResult<List<JobTitle>> findById(@PathVariable("id") Integer id){
 		return jobTitleService.findById(id);
 	}
 	
 	@RequestMapping(value = "findbytitle/{title}", method = RequestMethod.GET)
-	public List<JobTitle> findByTitle(@PathVariable("title") String title){
+	public DataResult<List<JobTitle>> findByTitle(@PathVariable("title") String title){
 		return jobTitleService.findJobTitles(title);
 	}
 	

@@ -1,4 +1,4 @@
-package kodlamaio.hrms.core.utilites.results;
+package kodlamaio.hrms.core.utilites;
 
 import kodlamaio.hrms.services.FakeMernis;
 

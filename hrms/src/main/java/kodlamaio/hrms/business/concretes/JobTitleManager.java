@@ -24,20 +24,20 @@ public class JobTitleManager implements JobTitleService{
 	}
 	
 	@Override
-	public List<JobTitle> getAll() {
+	public DataResult<List<JobTitle>> getAll() {
 		// TODO Auto-generated method stub
-		return jobTitleDao.findAll();
+		return new SuccessDataResult<List<JobTitle>>(jobTitleDao.findAll(),"Başarılı Şekilde Listelendi");
 	}
 
 	@Override
-	public Optional<JobTitle> findById(Integer id) {
+	public DataResult<List<JobTitle>> findById(int id) {
 		// TODO Auto-generated method stub
-		return jobTitleDao.findById(id);
+		return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findById(id),"Başarı Şekilde Listelendi");
 	}
 
 	@Override
-    public List<JobTitle> findJobTitles(String title) {
-        return this.jobTitleDao.findJobTitles(title);
+    public DataResult<List<JobTitle>> findJobTitles(String title) {
+        return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findJobTitles(title),"Başarı Şekilde Listelendi");
     }
 
 	@Override

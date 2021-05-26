@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kodlamaio.hrms.business.abstracts.UserService;
+import kodlamaio.hrms.core.utilites.results.DataResult;
 import kodlamaio.hrms.entities.concretes.User;
 
 @RestController
@@ -26,7 +27,7 @@ public class UsersController {
 	
 	@GetMapping("/getall")
 	@ResponseBody
-	public List<User> getAll(){
+	public DataResult<List<User>>  getAll(){
 		return this.userService.getAll();
 	}
 	

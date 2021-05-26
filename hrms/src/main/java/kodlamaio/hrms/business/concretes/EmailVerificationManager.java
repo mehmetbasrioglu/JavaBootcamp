@@ -44,10 +44,13 @@ public class EmailVerificationManager  implements EmailVerificationService{
 	@Override
 	public Result verify(String verificationCode,Integer id) {
 		// TODO Auto-generated method stub
-		EmailVerification ref = emailVerificationDao.getOne(id);
-		if(ref.getCode().equals(verificationCode)) {
+		EmailVerification ref = emailVerificationDao.findByUserId(id).stream().findFirst().get();
+		if(ref.getCode().equals(verificationCode) && ref.isVerified() != true) {
 			ref.setVerified(true);
 			return  new SuccessDataResult<EmailVerification>(this.emailVerificationDao.save(ref),"Başarılı");
+		}
+		else if(ref.isVerified() == true) {
+			return  new ErrorDataResult<EmailVerification>(null,"Zaten Doğrulanmış Hesap");
 		}
 		return  new ErrorDataResult<EmailVerification>(null,"Doğrulama Kodu Geçersiz");
 		

@@ -31,4 +31,8 @@ public class EmailVerification {
 	@Column(name="user_id")
 	private int userId;
 	
+	public boolean isVerified() {
+		return this.isVerified;
+	}
+	
 }

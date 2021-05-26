@@ -123,9 +123,9 @@ public class EmployerManager implements EmployerService{
 	}
 
 	@Override
-	public List<Employer> getAll() {
+	public DataResult<List<Employer>> getAll() {
 		// TODO Auto-generated method stub
-		return this.employerDao.findAll();
+		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(),"Başarılı Şekilde Employer Listelendi");
 	}
 
 	

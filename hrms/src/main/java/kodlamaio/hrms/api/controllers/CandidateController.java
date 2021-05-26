@@ -22,7 +22,7 @@ public class CandidateController {
 	}
 	
 	@GetMapping("/getall")
-	public List<Candidate> getAll(){
+	public DataResult<List<Candidate>> getAll(){
 		return this.candidateService.getAll();
 	}
 	

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import kodlamaio.hrms.business.abstracts.CandidateService;
 import kodlamaio.hrms.business.abstracts.EmailVerificationService;
 import kodlamaio.hrms.business.abstracts.UserService;
+import kodlamaio.hrms.core.utilites.IdentityValidation;
 import kodlamaio.hrms.core.utilites.results.DataResult;
 import kodlamaio.hrms.core.utilites.results.ErrorDataResult;
-import kodlamaio.hrms.core.utilites.results.IdentityValidation;
 import kodlamaio.hrms.core.utilites.results.SuccessDataResult;
 import kodlamaio.hrms.dataAccess.abstracts.CandidateDao;
 import kodlamaio.hrms.entities.concretes.Candidate;
@@ -137,9 +137,9 @@ public class CandidateManager implements CandidateService{
 
 
 	@Override
-	public List<Candidate> getAll() {
+	public DataResult<List<Candidate>> getAll() {
 		// TODO Auto-generated method stub
-		return this.candidateDao.findAll();
+		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(),"Başarılı Şekilde İş Arayanlar Listelendi");
 	}
 	
 	
