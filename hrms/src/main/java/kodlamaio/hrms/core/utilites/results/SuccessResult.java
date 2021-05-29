@@ -1,12 +1,12 @@
 package kodlamaio.hrms.core.utilites.results;
 
 public class SuccessResult extends Result{
-	public SuccessResult(boolean success) {
+	public SuccessResult() {
 		super(true);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public SuccessResult(boolean success, String message) {
+	public SuccessResult(String message) {
 		super(true, message);
 		// TODO Auto-generated constructor stub
 	}

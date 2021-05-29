@@ -35,22 +35,39 @@ public class ProductsController {
 		return this.productService.getAll();
 	}
 	
+	
+	@GetMapping("/getallbypage")
+	public 	DataResult<List<Product>> getAll(int pageNo, int pageSize){
+		return this.productService.getAll(pageNo,pageSize);
+	}
+	
+	@GetMapping("/getallbydesc")
+	public 	DataResult<List<Product>> getAllSorted(){
+		return this.productService.getAllSorted();
+	}
+	
 	 @PostMapping("/add")
 	public Result add(@RequestBody Product product) {
 		return this.productService.add(product);
 	}
 	
-	@GetMapping("/findbyid/{id}")
-	public Optional<Product> findById(@PathVariable Integer id) {
-	    return this.productService.findById(id);
+	 @GetMapping("/getByProductName")
+		public DataResult<Product> getByProductName(@RequestParam String productName){
+			return this.productService.getByProductName(productName);
+		}
+	 
+	 @GetMapping("/getByProductAndCategory")
+		public DataResult<Product> getByProductNameAndCategory(@RequestParam String productName,@RequestParam int categoryId){
+			return this.productService.getByProductNameAndCategory_CategoryId(productName, categoryId);
+		}
+	 
+	 @GetMapping("/getByProductNameContains")
+		public DataResult<List<Product>> getByProductNameContains(@RequestParam String productName){
+			return this.productService.getByProductNameContains(productName);
+		}
+	 
+	 
 		
-	}
-	
-	@GetMapping("/getbycategoryid/{id}")
-	public Optional<Product> findByCategoryId(@PathVariable Integer id) {
-	    return this.productService.findByCategoryId(id);
-		
-	}
 
 
 

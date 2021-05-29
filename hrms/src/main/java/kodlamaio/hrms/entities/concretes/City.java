@@ -13,21 +13,26 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@Table(name="job_titles")
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="cities")
+@Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","jobAdvertisement"})
-public class JobTitle {
+public class City {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	@Column(name="title")
-	private String title;
 	
-	@OneToMany(mappedBy = "jobtitle")
+	@Column(name="city_name")
+	private String cityName;
+	
+	@OneToMany(mappedBy = "city")
     private List<JobAdvertisement> jobAdvertisement;
 	
 }
