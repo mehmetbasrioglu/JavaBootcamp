@@ -11,8 +11,12 @@ DataResult<List<JobAdvertisement>> getAll();
 	
 	Result add(JobAdvertisement jobAdvertisement);
 	
-	List<JobAdvertisement> findAllByIsActive();
+	DataResult<List<JobAdvertisement>> findAllByIsActive();
 	
-	List<JobAdvertisement> findAllByIsActiveSorted();
+	DataResult<List<JobAdvertisement>> findAllByIsActiveSorted();
+	
+	DataResult<List<JobAdvertisement>> findAllByIsActiveAndCompanyName(int id);
+	
+	DataResult<JobAdvertisement> setJobAdvertisementDisabled(int id);
 	
 }
