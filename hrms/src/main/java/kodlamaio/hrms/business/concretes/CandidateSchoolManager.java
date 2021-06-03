@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.CandidateSchoolService;
 import kodlamaio.hrms.core.utilites.results.DataResult;
+import kodlamaio.hrms.core.utilites.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilites.results.SuccessDataResult;
+import kodlamaio.hrms.dataAccess.abstracts.CandidateCvDao;
 import kodlamaio.hrms.dataAccess.abstracts.CandidateSchoolDao;
 import kodlamaio.hrms.entities.concretes.CandidateCv;
 import kodlamaio.hrms.entities.concretes.CandidateSchool;
@@ -16,11 +18,14 @@ import kodlamaio.hrms.entities.concretes.CandidateSchool;
 public class CandidateSchoolManager implements CandidateSchoolService{
 
 	private CandidateSchoolDao CandidateSchoolDao;
+	private CandidateCvDao candidateCvDao;
 	
 	@Autowired
-	public CandidateSchoolManager(CandidateSchoolDao candidateSchoolDao) {
+	public CandidateSchoolManager(CandidateSchoolDao candidateSchoolDao,
+			CandidateCvDao candidateCvDao) {
 		super();
 		CandidateSchoolDao = candidateSchoolDao;
+		this.candidateCvDao = candidateCvDao;
 	}
 
 
@@ -57,6 +62,16 @@ public class CandidateSchoolManager implements CandidateSchoolService{
 		}
 		
 		return new SuccessDataResult<CandidateSchool>(this.CandidateSchoolDao.save(ref),"Başarılı şekilde update oldu");
+	}
+
+
+	@Override
+	public DataResult<List<CandidateSchool>> orderedCandidateCvSchools(int id) {
+		// TODO Auto-generated method stub
+		if(!this.candidateCvDao.existsById(id)) {
+			return new ErrorDataResult<>("Cv bulunamadı");
+		}
+		return new SuccessDataResult<List<CandidateSchool>>(this.CandidateSchoolDao.getSchoolsOrderByGraduationDateDesc(id),"Başarılı Şekilde İş arayanın okul bilgileri listelendi");
 	}
 
 

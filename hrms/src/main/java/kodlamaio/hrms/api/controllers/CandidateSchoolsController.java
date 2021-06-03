@@ -44,4 +44,10 @@ public class CandidateSchoolsController {
 		return this.candidateSchoolService.getAll();
 	}
 	
+	@GetMapping("/getcandidateschoolswithordered")
+	public DataResult<List<CandidateSchool>> orderedCandidateCvSchools(@RequestParam int id){
+		return this.candidateSchoolService.orderedCandidateCvSchools(id);
+	}
+	
+	
 }

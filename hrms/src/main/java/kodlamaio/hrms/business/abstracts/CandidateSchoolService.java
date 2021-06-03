@@ -11,7 +11,13 @@ public interface CandidateSchoolService {
 	
 
 	DataResult<List<CandidateSchool>> findByCandidateId(int id);
+	
+	DataResult<List<CandidateSchool>> orderedCandidateCvSchools(int id);
 
 
 	DataResult<CandidateSchool> updateSchool(CandidateSchool candidateSchool);
+	
+	
+	
+	
 }
