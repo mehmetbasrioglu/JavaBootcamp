@@ -1,11 +1,14 @@
 package kodlamaio.hrms.business.concretes;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kodlamaio.hrms.business.abstracts.CandidateCvService;
+import kodlamaio.hrms.core.utilites.business.ImageService;
 import kodlamaio.hrms.core.utilites.results.DataResult;
 import kodlamaio.hrms.core.utilites.results.Result;
 import kodlamaio.hrms.core.utilites.results.SuccessDataResult;
@@ -30,17 +33,21 @@ public class CandidateCvManager implements CandidateCvService{
 	private CandidateLanguageDao candidateLanguageDao;
 	private CandidateJobExperienceDao candidateJobExperienceDao;
 	
+	private ImageService imageService;
+	
 	@Autowired
 	public CandidateCvManager(CandidateCvDao candidateCvDao,
 			CandidateSchoolDao candidateSchoolDao,
 			CandidateTalentDao candidateTalentDao,
 			CandidateLanguageDao candidateLanguageDao,
-			CandidateJobExperienceDao candidateJobExperienceDao) {
+			CandidateJobExperienceDao candidateJobExperienceDao,
+			ImageService imageService) {
 		this.candidateCvDao = candidateCvDao;
 		this.candidateSchoolDao = candidateSchoolDao;
 		this.candidateTalentDao = candidateTalentDao;
 		this.candidateLanguageDao = candidateLanguageDao;
 		this.candidateJobExperienceDao = candidateJobExperienceDao;
+		this.imageService = imageService;
 	}
 	
 	@Override
@@ -70,6 +77,21 @@ public class CandidateCvManager implements CandidateCvService{
 		return new SuccessResult("İş Arayan Cv si eklendi");
 	}
 	
+
+	@Override
+	public Result uploadCvPhoto(int candidateCvId, MultipartFile multipartFile) throws IOException {
+		// TODO Auto-generated method stub
+
+    var result = this.imageService.upload(multipartFile);
+      var url = result.getData().get("url");
+      
+      CandidateCv ref = this.candidateCvDao.getOne(candidateCvId); 
+      ref.setAvatarUrl(url.toString());
+      this.candidateCvDao.save(ref);
+      
+        return new SuccessResult("başarılı");
+	}
+
 
 	@Override
 	public DataResult<List<CandidateCv>> findByCandidateId(int id) {

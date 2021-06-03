@@ -51,7 +51,7 @@ public class CandidateJobExperience {
 	
 	 */
 	@JsonProperty(access = Access.WRITE_ONLY)
-    @ManyToOne(targetEntity = CandidateJobExperience.class)
+    @ManyToOne()
     @JoinColumn(name="candidates_cv_id")
     //@NotFound(action=NotFoundAction.IGNORE)
     private CandidateCv candidateCv;
