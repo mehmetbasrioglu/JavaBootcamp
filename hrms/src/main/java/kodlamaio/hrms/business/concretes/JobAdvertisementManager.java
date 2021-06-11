@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.JobAdvertisementService;
 import kodlamaio.hrms.core.utilites.business.BusinessEngine;
+import kodlamaio.hrms.core.utilites.converters.DtoConverterService;
 import kodlamaio.hrms.core.utilites.results.DataResult;
 import kodlamaio.hrms.core.utilites.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilites.results.ErrorResult;
@@ -19,6 +20,7 @@ import kodlamaio.hrms.dataAccess.abstracts.EmployerDao;
 import kodlamaio.hrms.dataAccess.abstracts.JobAdvertisementDao;
 import kodlamaio.hrms.entities.concretes.Employer;
 import kodlamaio.hrms.entities.concretes.JobAdvertisement;
+import kodlamaio.hrms.entities.dtos.JobAdvertisementDto;
 
 @Service
 public class JobAdvertisementManager implements JobAdvertisementService {
@@ -28,13 +30,17 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	private EmployerDao employerDao;
 	
 	private CityDao cityDao;
+	
+
+	private DtoConverterService dtoConverterService;
 
 	@Autowired
-	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao,EmployerDao employerDao, CityDao cityDao) {
+	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao,EmployerDao employerDao, CityDao cityDao,DtoConverterService dtoConverterService) {
 		super();
 		this.jobAdvertisementDao = jobAdvertisementDao;
 		this.employerDao = employerDao;
 		this.cityDao = cityDao;
+		this.dtoConverterService = dtoConverterService;
 	}
 
 	@Override
@@ -45,7 +51,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	}
 
 	@Override
-	public Result add(JobAdvertisement jobAdvertisement) {
+	public Result add(JobAdvertisementDto jobAdvertisement) {
 		
 		Result engine = BusinessEngine.run(
 				findEmployer(jobAdvertisement),
@@ -62,7 +68,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		if(!engine.isSuccess()) {
 			return new ErrorResult(engine.getMessage());
 		}
-		this.jobAdvertisementDao.save(jobAdvertisement);
+		this.jobAdvertisementDao.save((JobAdvertisement) dtoConverterService.dtoClassConverter(jobAdvertisement, JobAdvertisement.class));
 		return new SuccessResult("eklendi");
 		
 	
@@ -106,29 +112,29 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	
 
 	
-	private Result findEmployer(JobAdvertisement jobAdvertisement) {
-		if(!this.employerDao.existsById(jobAdvertisement.getEmployer().getId())) {
+	private Result findEmployer(JobAdvertisementDto jobAdvertisement) {
+		if(!this.employerDao.existsById(jobAdvertisement.getEmployerId())) {
 			return new ErrorResult("İş veren bulunamadı");
 		}
 		return new SuccessResult();
 	}
 	
 	
-	private Result findCity(JobAdvertisement jobAdvertisement) {
-		if(!this.cityDao.existsById(jobAdvertisement.getCity().getId())) {
+	private Result findCity(JobAdvertisementDto jobAdvertisement) {
+		if(!this.cityDao.existsById(jobAdvertisement.getCityId())) {
 			return new ErrorResult("Şehir bulunamadı");
 		}
 		return new SuccessResult();
 	}
 	
-	private Result descriptionNullChecker(JobAdvertisement jobAdvertisement) {
+	private Result descriptionNullChecker(JobAdvertisementDto jobAdvertisement) {
 		if(jobAdvertisement.getDescription().isEmpty()) {
 			return new ErrorResult("İş Tanımı Boş Bırakılamaz");
 		}
 		return new SuccessResult();
 	}
 	
-	private Result ifMinSalaryNull(JobAdvertisement jobAdvertisement) {
+	private Result ifMinSalaryNull(JobAdvertisementDto jobAdvertisement) {
 		if(jobAdvertisement.getMinSalary() == null) {
 			return new ErrorResult("Minimum Maaş Girilmek Zorundadır");
 		}
@@ -136,42 +142,42 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	}
 	
 	
-	private Result ifMaxSalaryNull(JobAdvertisement jobAdvertisement) {
+	private Result ifMaxSalaryNull(JobAdvertisementDto jobAdvertisement) {
 		if(jobAdvertisement.getMaxSalary() == null) {
 			return new ErrorResult("Maksimum Maaş Girilmek Zorundadır");
 		}
 		return new SuccessResult();
 	}
 	
-	private Result minSalaryChecker(JobAdvertisement jobAdvertisement) {
+	private Result minSalaryChecker(JobAdvertisementDto jobAdvertisement) {
 		if(jobAdvertisement.getMinSalary() == 0) {
 			return new ErrorResult("Minimum Maaş 0 verilemez");
 		}
 		return new SuccessResult();
 	}
 	
-	private Result maxSalaryChecker(JobAdvertisement jobAdvertisement) {
+	private Result maxSalaryChecker(JobAdvertisementDto jobAdvertisement) {
 		if(jobAdvertisement.getMaxSalary() == 0) {
 			return new ErrorResult("Maksimum Maaş 0 verilemez");
 		}
 		return new SuccessResult();
 	}
 	
-	private Result ifMinSalaryEqualsMaxSalary(JobAdvertisement jobAdvertisement) {
+	private Result ifMinSalaryEqualsMaxSalary(JobAdvertisementDto jobAdvertisement) {
 		if(jobAdvertisement.getMinSalary() >= jobAdvertisement.getMaxSalary()) {
 			return new ErrorResult("Minimum Maaş Maksimum Maaşa eşit olamaz");
 		}
 		return new SuccessResult();
 	}
 	
-	private Result ifQuotaSmallerThanOne(JobAdvertisement jobAdvertisement) {
+	private Result ifQuotaSmallerThanOne(JobAdvertisementDto jobAdvertisement) {
 		if(jobAdvertisement.getQuota() < 1) {
 			return new ErrorResult("Açık pozisyon adedi 1 den küçük olamaz");
 		}
 		return new SuccessResult();
 	}
 	
-	private Result appealExpirationChecker(JobAdvertisement jobAdvertisement) {
+	private Result appealExpirationChecker(JobAdvertisementDto jobAdvertisement) {
 		if(jobAdvertisement.getAppealExpirationDate() == null) {
 			return new ErrorResult("Son Başvuru Tarihi Girilmek Zorundadır");
 		}

@@ -5,11 +5,12 @@ import java.util.List;
 import kodlamaio.hrms.core.utilites.results.DataResult;
 import kodlamaio.hrms.core.utilites.results.Result;
 import kodlamaio.hrms.entities.concretes.JobAdvertisement;
+import kodlamaio.hrms.entities.dtos.JobAdvertisementDto;
 
 public interface JobAdvertisementService {
 DataResult<List<JobAdvertisement>> getAll();
 	
-	Result add(JobAdvertisement jobAdvertisement);
+	Result add(JobAdvertisementDto jobAdvertisement);
 	
 	DataResult<List<JobAdvertisement>> findAllByIsActive();
 	
