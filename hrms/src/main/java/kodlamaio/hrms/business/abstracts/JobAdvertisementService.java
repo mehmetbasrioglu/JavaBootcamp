@@ -20,4 +20,13 @@ DataResult<List<JobAdvertisement>> getAll();
 	
 	DataResult<JobAdvertisement> setJobAdvertisementDisabled(int id);
 	
+	DataResult<List<JobAdvertisement>> getConfirmedJobAdvertisements();
+	
+	DataResult<List<JobAdvertisement>> getWaitingJobAdvertisements();
+	
+	DataResult<List<JobAdvertisement>> getOneJobAds(int id);
+	
+	Result confirmJobAd(int id);
+	
+	
 }
