@@ -3,6 +3,7 @@ package kodlamaio.hrms.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -57,6 +58,12 @@ public class JobAdvertisementController {
 	public DataResult<List<JobAdvertisement>> getConfirmedJobAdvertisements() {
 		return this.jobAdvertisementService.getConfirmedJobAdvertisements();
 	}
+	
+	@GetMapping("/getConfirmedJobAdsWithPageable")
+	public DataResult<Page<JobAdvertisement>> getConfirmedJobAdsWithPageable(@RequestParam int pageNo, @RequestParam int pageSize) {
+		return this.jobAdvertisementService.getConfirmedJobAdvertisementsWithPageable(pageNo,pageSize);
+	}
+	
 	
 	@GetMapping("/getWaitingJobAds")
 	public DataResult<List<JobAdvertisement>> getWaitingJobAdvertisements() {

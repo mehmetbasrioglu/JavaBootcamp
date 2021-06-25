@@ -3,6 +3,9 @@ package kodlamaio.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -215,6 +218,13 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		}
 		return new ErrorResult("İş İlani Bulunamadı");
 		
+	}
+
+	@Override
+	public DataResult<Page<JobAdvertisement>> getConfirmedJobAdvertisementsWithPageable(int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+		return new SuccessDataResult<Page<JobAdvertisement>>(this.jobAdvertisementDao.getConfirmedJobAdvertisements(pageable));
 	}
 	
 	

@@ -2,6 +2,8 @@ package kodlamaio.hrms.dataAccess.abstracts;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,6 +31,12 @@ public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Int
 	
 	@Query("From JobAdvertisement where isConfirmed = false")
 	List<JobAdvertisement> getWaitingJobAdvertisements();
+
+	@Query(value="Select * From job_advertisements where is_confirmed_by_admin = true ",
+			countQuery="Select count(*) From job_advertisements where is_confirmed_by_admin = true", 
+			nativeQuery=true)
+
+	Page<JobAdvertisement>getConfirmedJobAdvertisements(Pageable pageable);
 	
 	
 	
