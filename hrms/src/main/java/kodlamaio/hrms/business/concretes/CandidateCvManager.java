@@ -9,7 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kodlamaio.hrms.business.abstracts.CandidateCvService;
 import kodlamaio.hrms.core.utilites.business.ImageService;
+import kodlamaio.hrms.core.utilites.converters.DtoConverterService;
 import kodlamaio.hrms.core.utilites.results.DataResult;
+import kodlamaio.hrms.core.utilites.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilites.results.Result;
 import kodlamaio.hrms.core.utilites.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilites.results.SuccessResult;
@@ -23,6 +25,7 @@ import kodlamaio.hrms.entities.concretes.CandidateJobExperience;
 import kodlamaio.hrms.entities.concretes.CandidateLanguage;
 import kodlamaio.hrms.entities.concretes.CandidateSchool;
 import kodlamaio.hrms.entities.concretes.CandidateTalent;
+import kodlamaio.hrms.entities.dtos.CandidateCvDto;
 
 @Service
 public class CandidateCvManager implements CandidateCvService{
@@ -35,19 +38,23 @@ public class CandidateCvManager implements CandidateCvService{
 	
 	private ImageService imageService;
 	
+	private DtoConverterService dtoConverterService;
+	
 	@Autowired
 	public CandidateCvManager(CandidateCvDao candidateCvDao,
 			CandidateSchoolDao candidateSchoolDao,
 			CandidateTalentDao candidateTalentDao,
 			CandidateLanguageDao candidateLanguageDao,
 			CandidateJobExperienceDao candidateJobExperienceDao,
-			ImageService imageService) {
+			ImageService imageService,
+			DtoConverterService dtoConverterService) {
 		this.candidateCvDao = candidateCvDao;
 		this.candidateSchoolDao = candidateSchoolDao;
 		this.candidateTalentDao = candidateTalentDao;
 		this.candidateLanguageDao = candidateLanguageDao;
 		this.candidateJobExperienceDao = candidateJobExperienceDao;
 		this.imageService = imageService;
+		this.dtoConverterService = dtoConverterService;
 	}
 	
 	@Override
@@ -57,11 +64,14 @@ public class CandidateCvManager implements CandidateCvService{
 	}
 
 	@Override
-	public Result add(CandidateCv candidateCv) {
-		CandidateCv temporaryRef = candidateCvDao.save(candidateCv);
+	public Result add(CandidateCvDto candidateCv) {
+		candidateCv.setAvatarUrl("https://res.cloudinary.com/drtniio0r/image/upload/v1624707367/noperson_e8gskq.png");
+		CandidateCv temporaryRef = candidateCvDao.save((CandidateCv) this.dtoConverterService.dtoClassConverter(candidateCv, CandidateCv.class));
 		
 		
-		setCvSchoolId(temporaryRef.getSchools(), temporaryRef);
+/*
+ * ESKİ YÖNTEM
+ * 		setCvSchoolId(temporaryRef.getSchools(), temporaryRef);
 		setCvTalentId(temporaryRef.getTalents(), temporaryRef);
 		setCvLanguageId(temporaryRef.getLanguages(), temporaryRef);
 		setCvJobExperienceId(temporaryRef.getJobExperience(), temporaryRef);
@@ -70,11 +80,22 @@ public class CandidateCvManager implements CandidateCvService{
 		System.out.println("Dil:"+candidateCv.getLanguages().size());
 		System.out.println("Yetenek:"+candidateCv.getTalents().size());
 		System.out.println("İş Deneyimi:"+candidateCv.getJobExperience().size());
+		/
+ */
 		
 		
 		
 		
 		return new SuccessResult("İş Arayan Cv si eklendi");
+	}
+
+	@Override
+	public DataResult<CandidateCv> findById(int id) {
+		// TODO Auto-generated method stub
+		if(this.candidateCvDao.existsById(id)) {
+			return new SuccessDataResult<CandidateCv>(this.candidateCvDao.findById(id),"İş Arayan Cv si listelendi");
+		}
+		return new ErrorDataResult<>("Cv bulunamadı");
 	}
 	
 
@@ -127,6 +148,16 @@ public class CandidateCvManager implements CandidateCvService{
 			candidateJobExperienceDao.save(data);
 		}
 	}
+
+	@Override
+	public Result updateCoverLetter(String text, int cvId) {
+		// TODO Auto-generated method stub
+		CandidateCv ref = this.candidateCvDao.getOne(cvId);
+		ref.setCoverLetter(text);
+		this.candidateCvDao.save(ref);
+		return new SuccessResult("başarılı");
+	}
+
 
  
 

@@ -59,4 +59,9 @@ public class CandidateJobExperience {
 	@Column(name="is_continue")
 	private boolean isContinue;
 	
+	@Column(name="job_detail")
+	private String jobDetail;
+	
+	
+	
 }

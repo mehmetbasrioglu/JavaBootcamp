@@ -1,7 +1,5 @@
 package kodlamaio.hrms.entities.concretes;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -20,28 +19,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-
+@NoArgsConstructor
+@Table(name="favs")
 @Entity
-@Table(name="candidates_talent")
-public class CandidateTalent {
+
+public class Favourites {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	
-    @ManyToOne(targetEntity = CandidateCv.class)
-    @JoinColumn(name="candidates_cv_id")
-    @JsonIgnore
-    private CandidateCv candidateCv;
-	
-	/*
-	 * @Column(name="talents_id")
-	private int talentsId;
-	 */
+	@ManyToOne
+	  @JoinColumn(name = "job_advertisement_id")
+	   private JobAdvertisement jobAdvertisement;
 	
 	@ManyToOne
-	  @JoinColumn(name = "talents_id")
-	   private Talent talent;
+	  @JoinColumn(name = "candidate_id")
+	   private Candidate candidate;
 }

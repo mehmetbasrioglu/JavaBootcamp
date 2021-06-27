@@ -29,8 +29,12 @@ public class CandidateCv {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
+	
+	
 	@Column(name="candidate_id")
 	private int candidateId;
+	
+	
 	@Column(name="linkedin_address")
 	private String linkedinAddress;
 	@Column(name="github_address")
@@ -40,7 +44,7 @@ public class CandidateCv {
 	@Column(name="is_active")
 	private boolean isActive;
 	@Column(name="avatar_url")
-	private String avatarUrl;
+	private String avatarUrl = "https://res.cloudinary.com/drtniio0r/image/upload/v1624707367/noperson_e8gskq.png";
 	//candidates_cv_school_id
 	
 	/**
