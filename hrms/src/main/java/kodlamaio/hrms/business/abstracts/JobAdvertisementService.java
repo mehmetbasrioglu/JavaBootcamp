@@ -24,13 +24,15 @@ DataResult<List<JobAdvertisement>> getAll();
 	
 	DataResult<List<JobAdvertisement>> getConfirmedJobAdvertisements();
 	
-	DataResult<Page<JobAdvertisement>> getConfirmedJobAdvertisementsWithPageable(int pageNo, int pageSize);
+	DataResult<List<JobAdvertisement>> getConfirmedJobAdvertisementsWithPageable(int pageNo, int pageSize);
 	
 	DataResult<List<JobAdvertisement>> getWaitingJobAdvertisements();
 	
 	DataResult<List<JobAdvertisement>> getOneJobAds(int id);
 	
 	Result confirmJobAd(int id);
+
+	DataResult<List<JobAdvertisement>> getFilter(JobAdvertisement jobAds, int pageNumber,int pageSize);
 	
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -60,7 +61,7 @@ public class JobAdvertisementController {
 	}
 	
 	@GetMapping("/getConfirmedJobAdsWithPageable")
-	public DataResult<Page<JobAdvertisement>> getConfirmedJobAdsWithPageable(@RequestParam int pageNo, @RequestParam int pageSize) {
+	public DataResult<List<JobAdvertisement>> getConfirmedJobAdsWithPageable(@RequestParam int pageNo, @RequestParam int pageSize) {
 		return this.jobAdvertisementService.getConfirmedJobAdvertisementsWithPageable(pageNo,pageSize);
 	}
 	
@@ -91,4 +92,14 @@ public class JobAdvertisementController {
 		return this.jobAdvertisementService.setJobAdvertisementDisabled(id);
 	}
 	
+	
+	 @PostMapping("/getFilter")
+	    public ResponseEntity getfilter(@RequestBody JobAdvertisement jobAds,int pageNumber,int pageSize){
+	        var result = this.jobAdvertisementService.getFilter(jobAds,pageNumber,pageSize);
+	        if (result.isSuccess()){
+	            return ResponseEntity.ok(result);
+	        }
+	        return ResponseEntity.badRequest().body(result);
+	    }
+	 
 }

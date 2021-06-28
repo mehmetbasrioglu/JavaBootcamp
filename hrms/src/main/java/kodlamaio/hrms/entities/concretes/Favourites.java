@@ -35,5 +35,6 @@ public class Favourites {
 	
 	@ManyToOne
 	  @JoinColumn(name = "candidate_id")
+	 @JsonIgnore
 	   private Candidate candidate;
 }

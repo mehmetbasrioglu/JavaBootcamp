@@ -1,15 +1,21 @@
 package kodlamaio.hrms.business.concretes;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.JobAdvertisementService;
+import kodlamaio.hrms.business.specifications.JobAdvertisementSpecification;
 import kodlamaio.hrms.core.utilites.business.BusinessEngine;
 import kodlamaio.hrms.core.utilites.converters.DtoConverterService;
 import kodlamaio.hrms.core.utilites.results.DataResult;
@@ -36,14 +42,18 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	
 
 	private DtoConverterService dtoConverterService;
+	
+	private ModelMapper modelMapper;
 
 	@Autowired
-	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao,EmployerDao employerDao, CityDao cityDao,DtoConverterService dtoConverterService) {
+	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao,EmployerDao employerDao, CityDao cityDao,DtoConverterService dtoConverterService
+		) {
 		super();
 		this.jobAdvertisementDao = jobAdvertisementDao;
 		this.employerDao = employerDao;
 		this.cityDao = cityDao;
 		this.dtoConverterService = dtoConverterService;
+		this.modelMapper = new ModelMapper();
 	}
 
 	@Override
@@ -76,6 +86,25 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		
 	
 	}
+	
+	   @Override
+	    public DataResult<List<JobAdvertisement>> getFilter(JobAdvertisement postByFilterDto,int pageNumber,int pageSize) {
+	        Pageable pageable = PageRequest.of(pageNumber -1,pageSize); //şimdilik 5
+	        Specification<JobAdvertisement> spec1 = JobAdvertisementSpecification.jobAdsFilter(postByFilterDto);
+	        Page<JobAdvertisement> result = this.jobAdvertisementDao.findAll(spec1,pageable);
+	        List<JobAdvertisement> active = new ArrayList<>();
+
+	        for (JobAdvertisement post:result) {
+	            if(post.isActive() == true && post.isConfirmed() == true){
+	                active.add(post);
+	            }
+	        }
+
+	        Type listType = new TypeToken<List<JobAdvertisement>>(){}.getType();
+	        List<JobAdvertisement> dto = modelMapper.map(active,listType);
+	        return new SuccessDataResult<List<JobAdvertisement>>(dto);
+	    }
+
 	
 	@Override
 	public DataResult<List<JobAdvertisement>> findAllByIsActive() {
@@ -221,10 +250,10 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	}
 
 	@Override
-	public DataResult<Page<JobAdvertisement>> getConfirmedJobAdvertisementsWithPageable(int pageNo, int pageSize) {
+	public DataResult<List<JobAdvertisement>> getConfirmedJobAdvertisementsWithPageable(int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
-		return new SuccessDataResult<Page<JobAdvertisement>>(this.jobAdvertisementDao.getConfirmedJobAdvertisements(pageable));
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getConfirmedJobAdvertisements(pageable));
 	}
 	
 	
