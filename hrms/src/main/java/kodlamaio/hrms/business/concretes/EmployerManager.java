@@ -124,6 +124,18 @@ public class EmployerManager implements EmployerService{
 		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(),"Başarılı Şekilde Employer Listelendi");
 	}
 
+	@Override
+	public Employer findByEmployerId(int id) {
+		// TODO Auto-generated method stub
+		return this.employerDao.findById(id);
+	}
+
+	@Override
+	public Employer update(Employer employer) {
+		// TODO Auto-generated method stub
+		return this.employerDao.save(employer);
+	}
+
 	
 
 	
