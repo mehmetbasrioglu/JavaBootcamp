@@ -103,7 +103,7 @@ public class CandidateCvManager implements CandidateCvService{
 	public Result uploadCvPhoto(int candidateCvId, MultipartFile multipartFile) throws IOException {
 		// TODO Auto-generated method stub
 
-    var result = this.imageService.upload(multipartFile);
+      var result = this.imageService.upload(multipartFile);
       var url = result.getData().get("url");
       
       CandidateCv ref = this.candidateCvDao.getOne(candidateCvId); 

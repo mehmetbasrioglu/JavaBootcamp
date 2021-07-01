@@ -1,16 +1,20 @@
 package kodlamaio.hrms.business.concretes;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kodlamaio.hrms.business.abstracts.EmailVerificationService;
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.utilites.IdentityValidation;
 import kodlamaio.hrms.core.utilites.business.BusinessEngine;
+import kodlamaio.hrms.core.utilites.business.ImageService;
 import kodlamaio.hrms.core.utilites.results.DataResult;
 import kodlamaio.hrms.core.utilites.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilites.results.ErrorResult;
@@ -19,6 +23,7 @@ import kodlamaio.hrms.core.utilites.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilites.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.EmployerDao;
 import kodlamaio.hrms.entities.concretes.Candidate;
+import kodlamaio.hrms.entities.concretes.CandidateCv;
 import kodlamaio.hrms.entities.concretes.EmailVerification;
 import kodlamaio.hrms.entities.concretes.Employer;
 import kodlamaio.hrms.entities.concretes.User;
@@ -29,13 +34,16 @@ public class EmployerManager implements EmployerService{
 	private EmployerDao employerDao;
 	private EmailVerificationService emailVerificationService;
 	private UserService userService;
+	private ImageService imageService;
 	
+	@Autowired
 	public EmployerManager(EmployerDao employerDao, EmailVerificationService emailVerificationService,
-			UserService userService) {
+			UserService userService,ImageService imageService) {
 		super();
 		this.employerDao = employerDao;
 		this.emailVerificationService = emailVerificationService;
 		this.userService = userService;
+		this.imageService = imageService;
 	}
 
 	@Override
@@ -53,7 +61,22 @@ public class EmployerManager implements EmployerService{
 		}
 		User savedUser = this.userService.add(employer);
 		this.emailVerificationService.generateCode(new EmailVerification(),savedUser.getId());
+		employer.setAvatarUrl("https://res.cloudinary.com/drtniio0r/image/upload/v1624707367/noperson_e8gskq.png");
 		return new SuccessDataResult<Employer>(this.employerDao.save(employer),"İş Veren Hesabı Eklendi, Doğrulama Kodu Gönderildi ID:"+employer.getId());
+	}
+	
+	@Override
+	public Result uploadEmployerPhoto(int employerId, MultipartFile multipartFile) throws IOException {
+		// TODO Auto-generated method stub
+
+    var result = this.imageService.upload(multipartFile);
+      var url = result.getData().get("url");
+      
+      Employer ref = this.employerDao.getOne(employerId); 
+      ref.setAvatarUrl(url.toString());
+      this.employerDao.save(ref);
+      
+        return new SuccessResult("başarılı");
 	}
 	
 	private Result companyNameChecker(Employer employer) {
@@ -134,6 +157,15 @@ public class EmployerManager implements EmployerService{
 	public Employer update(Employer employer) {
 		// TODO Auto-generated method stub
 		return this.employerDao.save(employer);
+	}
+
+	@Override
+	public DataResult<Employer> findById(int id) {
+		// TODO Auto-generated method stub
+		if(this.employerDao.existsById(id)) {
+			return new SuccessDataResult<Employer>(this.employerDao.findById(id),"İşveren bilgileri getirildi");
+		}
+		return new ErrorDataResult<>("İşveren bulunamadı");
 	}
 
 	

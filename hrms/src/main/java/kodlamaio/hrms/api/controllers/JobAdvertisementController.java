@@ -66,6 +66,12 @@ public class JobAdvertisementController {
 	}
 	
 	
+	@GetMapping("/getByEmployerIdAndActiveAndConfirmed")
+	public DataResult<List<JobAdvertisement>> getByEmployerIdAndActiveJobAdvertisementAndConfirmed(int employerId) {
+		// TODO Auto-generated method stub
+		return this.jobAdvertisementService.getByEmployerIdAndActiveJobAdvertisementAndConfirmed(employerId);
+	}
+	
 	@GetMapping("/getWaitingJobAds")
 	public DataResult<List<JobAdvertisement>> getWaitingJobAdvertisements() {
 		return this.jobAdvertisementService.getWaitingJobAdvertisements();

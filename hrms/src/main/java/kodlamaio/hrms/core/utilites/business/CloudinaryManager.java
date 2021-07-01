@@ -36,7 +36,7 @@ public class CloudinaryManager implements ImageService{
 	public DataResult<Map> upload(MultipartFile multipartFile) throws IOException{
 		// TODO Auto-generated method stub
 		Map<String , Object > options = new HashMap<>();
-        var allowedFormats = Arrays.asList("png","jpg","jpeg");
+        var allowedFormats = Arrays.asList("png","jpg","jpeg","gif");
         options.put("allowed_formats",allowedFormats);
         File file = convertToFile(multipartFile);
         Map uploader  = null;

@@ -255,6 +255,15 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
 		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getConfirmedJobAdvertisements(pageable));
 	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getByEmployerIdAndActiveJobAdvertisementAndConfirmed(int employerId) {
+		// TODO Auto-generated method stub
+		if(this.employerDao.existsById(employerId)) {
+			return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByEmployerIdAndActiveJobAdvertisementAndConfirmed(employerId),"Başarılı");
+		}
+		return null;
+	}
 	
 	
 

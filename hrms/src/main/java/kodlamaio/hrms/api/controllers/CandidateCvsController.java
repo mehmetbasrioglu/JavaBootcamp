@@ -16,10 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kodlamaio.hrms.business.abstracts.CandidateCvService;
 import kodlamaio.hrms.core.utilites.results.DataResult;
 import kodlamaio.hrms.core.utilites.results.Result;
-import kodlamaio.hrms.core.utilites.results.SuccessDataResult;
-import kodlamaio.hrms.core.utilites.results.SuccessResult;
 import kodlamaio.hrms.entities.concretes.CandidateCv;
-import kodlamaio.hrms.entities.concretes.CandidateJobExperience;
 import kodlamaio.hrms.entities.dtos.CandidateCvDto;
 
 @RestController

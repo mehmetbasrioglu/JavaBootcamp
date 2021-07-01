@@ -24,6 +24,8 @@ DataResult<List<JobAdvertisement>> getAll();
 	
 	DataResult<List<JobAdvertisement>> getConfirmedJobAdvertisements();
 	
+	DataResult<List<JobAdvertisement>> getByEmployerIdAndActiveJobAdvertisementAndConfirmed(int employerId);
+	
 	DataResult<List<JobAdvertisement>> getConfirmedJobAdvertisementsWithPageable(int pageNo, int pageSize);
 	
 	DataResult<List<JobAdvertisement>> getWaitingJobAdvertisements();
