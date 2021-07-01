@@ -34,7 +34,7 @@ DataResult<List<JobAdvertisement>> getAll();
 	
 	Result confirmJobAd(int id);
 
-	DataResult<List<JobAdvertisement>> getFilter(JobAdvertisement jobAds, int pageNumber,int pageSize);
+	DataResult<List<JobAdvertisement>> getFilter(JobAdvertisement jobAds);
 	
 	
 }

@@ -88,10 +88,9 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	}
 	
 	   @Override
-	    public DataResult<List<JobAdvertisement>> getFilter(JobAdvertisement postByFilterDto,int pageNumber,int pageSize) {
-	        Pageable pageable = PageRequest.of(pageNumber -1,pageSize); //şimdilik 5
+	    public DataResult<List<JobAdvertisement>> getFilter(JobAdvertisement postByFilterDto) {
 	        Specification<JobAdvertisement> spec1 = JobAdvertisementSpecification.jobAdsFilter(postByFilterDto);
-	        Page<JobAdvertisement> result = this.jobAdvertisementDao.findAll(spec1,pageable);
+	        List<JobAdvertisement> result = this.jobAdvertisementDao.findAll(spec1);
 	        List<JobAdvertisement> active = new ArrayList<>();
 
 	        for (JobAdvertisement post:result) {
@@ -253,7 +252,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	public DataResult<List<JobAdvertisement>> getConfirmedJobAdvertisementsWithPageable(int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getConfirmedJobAdvertisements(pageable));
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getConfirmedJobAdvertisementsAndActive());
 	}
 
 	@Override

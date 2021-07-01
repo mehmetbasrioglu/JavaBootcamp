@@ -39,12 +39,11 @@ public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Int
 	List<JobAdvertisement> getWaitingJobAdvertisements();
 
 	@Query(value="Select * From job_advertisements where is_confirmed_by_admin = true and is_active = true ",
-			countQuery="Select count(*) From job_advertisements where is_confirmed_by_admin = true and is_active = true ", 
 			nativeQuery=true)
 
-	List<JobAdvertisement>getConfirmedJobAdvertisements(Pageable pageable);
+	List<JobAdvertisement>getConfirmedJobAdvertisementsAndActive();
 
-	Page<JobAdvertisement> findAll(Specification<JobAdvertisement> spec1, Pageable pageable);
+	List<JobAdvertisement> findAll(Specification<JobAdvertisement> spec1);
 	
 	
 	

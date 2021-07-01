@@ -100,8 +100,8 @@ public class JobAdvertisementController {
 	
 	
 	 @PostMapping("/getFilter")
-	    public ResponseEntity getfilter(@RequestBody JobAdvertisement jobAds,int pageNumber,int pageSize){
-	        var result = this.jobAdvertisementService.getFilter(jobAds,pageNumber,pageSize);
+	    public ResponseEntity getfilter(@RequestBody JobAdvertisement jobAds ){
+	        var result = this.jobAdvertisementService.getFilter(jobAds);
 	        if (result.isSuccess()){
 	            return ResponseEntity.ok(result);
 	        }
