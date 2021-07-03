@@ -44,6 +44,9 @@ public class Employer extends User{
 	@Column(name="foundation_year")
 	private Date foundYear;
 	
+	@Column(name="header_img_url")
+	private String headerImageUrl;
+	
 	@OneToMany(mappedBy = "employer")
 	private List<JobAdvertisement> jobAdvertisement;
 	

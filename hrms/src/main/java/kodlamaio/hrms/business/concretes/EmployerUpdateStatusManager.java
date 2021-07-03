@@ -46,9 +46,11 @@ public class EmployerUpdateStatusManager implements EmployerUpdateStatusService{
 		if(this.employerUpdateStatusDao.existsByEmployerId(employer.getEmployerId())) {
 			return new ErrorResult("Bekleyen Güncelleme İsteği Var !");
 		}
-		this.employerUpdateStatusDao.save(employer);
-		//System.out.println(employer.getUpdate());
-		return new SuccessResult("test");
+		else {
+			this.employerUpdateStatusDao.save(employer);
+			//System.out.println(employer.getUpdate());
+			return new SuccessResult("test");
+		}
 	}
 
 	@Override

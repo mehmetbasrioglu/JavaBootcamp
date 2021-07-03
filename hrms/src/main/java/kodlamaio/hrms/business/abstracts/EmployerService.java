@@ -21,4 +21,5 @@ public interface EmployerService {
 	
 	
 	Result uploadEmployerPhoto(int employerId, MultipartFile multipartFile) throws IOException;
+	Result uploadEmployerHeaderPhoto(int employerId, MultipartFile multipartFile) throws IOException;
 }

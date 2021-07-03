@@ -50,5 +50,10 @@ public class EmployersController {
 		return this.employerService.uploadEmployerPhoto(employerId, multipartFile);
 	}
 	
+	@PostMapping("/uploadheaderphoto")
+	public Result uploadEmployerHeaderPhoto(@RequestParam int employerId, @RequestParam MultipartFile multipartFile) throws IOException{
+		return this.employerService.uploadEmployerHeaderPhoto(employerId, multipartFile);
+	}
+	
 	
 }

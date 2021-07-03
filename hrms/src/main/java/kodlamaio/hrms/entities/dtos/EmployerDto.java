@@ -18,4 +18,5 @@ public class EmployerDto extends UserDto{
 	private String avatarUrl;
 	private String industry;
 	private Date foundYear;
+	private String headerImageUrl;
 }

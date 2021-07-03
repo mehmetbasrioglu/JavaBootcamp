@@ -168,6 +168,19 @@ public class EmployerManager implements EmployerService{
 		return new ErrorDataResult<>("İşveren bulunamadı");
 	}
 
+	@Override
+	public Result uploadEmployerHeaderPhoto(int employerId, MultipartFile multipartFile) throws IOException {
+		// TODO Auto-generated method stub
+	    var result = this.imageService.upload(multipartFile);
+	      var url = result.getData().get("url");
+	      
+	      Employer ref = this.employerDao.getOne(employerId); 
+	      ref.setHeaderImageUrl(url.toString());
+	      this.employerDao.save(ref);
+	      
+	        return new SuccessResult("başarılı");
+	}
+
 	
 
 	
